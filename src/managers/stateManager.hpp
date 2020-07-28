@@ -2,7 +2,7 @@
 
 #include "state.hpp"
 
-class StateManager{
+class StateManager {
 private:
 	State *state = nullptr;
 
