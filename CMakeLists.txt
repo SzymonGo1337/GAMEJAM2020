@@ -20,14 +20,6 @@ add_executable(
 	${SRC}
 )
 	
-include_directories(include)
-
-IF(WIN32)
-	link_directories(lib/win)
-ELSE()
-	link_directories(lib/linux)
-ENDIF()
-	
 set_target_properties(Game PROPERTIES OUTPUT_NAME "Game")
 target_link_libraries(
 	Game
