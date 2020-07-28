@@ -10,6 +10,8 @@ private:
 	sf::Event event;
 
 	StateManager sMan;
+
+	sf::Image icon;
 public:
 	App();
 	~App();
@@ -18,4 +20,6 @@ public:
 	void updateEvents();
 	void update();
 	void render();
+	
+	void setIcon(std::string iconImage);
 };
