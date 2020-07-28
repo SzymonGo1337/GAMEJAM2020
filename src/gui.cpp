@@ -1,6 +1,7 @@
 #include "gui.hpp"
 
 Button::Button(float x, float y, sf::Vector2f size) {
+    isColor = true;
     isTexture = false;
     buttonPosition = sf::Vector2f(x, y);
     buttonShape.setSize(size);
@@ -9,6 +10,7 @@ Button::Button(float x, float y, sf::Vector2f size) {
 }
 
 Button::Button(float x, float y, sf::Vector2f size, sf::Color color) {
+    isColor = true;
     isTexture = false;
     buttonColor = color;
     buttonPosition = sf::Vector2f(x, y);
@@ -18,6 +20,7 @@ Button::Button(float x, float y, sf::Vector2f size, sf::Color color) {
 }
 
 Button::Button(float x, float y, sf::Vector2f size, sf::Color color, sf::Color colorTwo) {
+    isColor = true;
     isTexture = false;
     buttonColor = color;
     buttonColorTwo = colorTwo;
@@ -28,6 +31,7 @@ Button::Button(float x, float y, sf::Vector2f size, sf::Color color, sf::Color c
 }
 
 Button::Button(float x, float y, sf::Texture texture) {
+    isColor = false;
     isTexture = true;
     buttonTexture = texture;
     buttonPosition = sf::Vector2f(x, y);
@@ -37,6 +41,7 @@ Button::Button(float x, float y, sf::Texture texture) {
 }
 
 Button::Button(float x, float y, sf::Texture texture, sf::Texture textureTwo) {
+    isColor = false;
     isTexture = true;
     buttonTexture = texture;
     buttonTextureTwo = textureTwo;
@@ -51,8 +56,17 @@ void Button::draw(sf::RenderTarget &target) {
 }
 
 void Button::clicked(sf::Window &target, buttonFunc make) {
-    if(buttonShape.getGlobalBounds().contains(sf::Mouse::getPosition(target).x, sf::Mouse::getPosition(target).y) &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        make();
+    if(buttonShape.getGlobalBounds().contains(sf::Mouse::getPosition(target).x, sf::Mouse::getPosition(target).y)) {
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            make();
+        } else if(isTexture == true && isColor == false) {
+            buttonShape.setTexture(&buttonTextureTwo);
+        } else if(isTexture == false && isColor == true) {
+            buttonShape.setFillColor(buttonColorTwo);
+        }
+    } else if(isTexture == true && isColor == false) {
+        buttonShape.setTexture(&buttonTexture);
+    } else if(isTexture == false && isColor == true) {
+        buttonShape.setFillColor(buttonColor);
     }
 }

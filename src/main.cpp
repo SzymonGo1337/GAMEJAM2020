@@ -1,4 +1,4 @@
-#include "gui/gui.hpp"
+#include "gui.hpp"
 
 void test() {
 	std::cout << "isClicked" << std::endl;
@@ -8,9 +8,12 @@ int main(){
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML works!");
 
 	sf::Texture txt1;
-	txt1.loadFromFile("ATFAA-LOGO.png");
+	txt1.loadFromFile("normal.png");
 
-	Button btn1(50.0f, 50.0f, txt1);
+	sf::Texture txt2;
+	txt2.loadFromFile("pressed.png");
+
+	Button btn1(50.0f, 50.0f, txt1, txt2);
 
 	while (window->isOpen()){
 		sf::Event event;

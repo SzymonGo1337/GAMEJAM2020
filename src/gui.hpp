@@ -16,6 +16,7 @@ private:
     sf::Vector2f buttonPosition;
 
     bool isTexture;
+    bool isColor;
 public:
     Button(float x, float y, sf::Vector2f size);
     Button(float x, float y, sf::Vector2f size, sf::Color color);
