@@ -1,4 +1,4 @@
-#include "gui.hpp"
+#include "gui/gui.hpp"
 
 void test() {
 	std::cout << "isClicked" << std::endl;
