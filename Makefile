@@ -20,20 +20,14 @@ LIBS=$(patsubst %,-l%,$(LIB_NAME))
 LIB_DIR=$(patsubst %,-L%,$(LIB_DIR_PATH))
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
-DIR=dirlinux
-ifeq ($(OS),Windows_NT)
-	DIR=dirwin
-endif
 
-all: $(DIR) proj
 
-dirwin:
-	#if not exist bin mkdir bin
-	#if not exist obj mkdir obj
+all: dirs proj
 
-dirlinux:
-	mkdir -p bin/
-	mkdir -p obj/
+dirs: bin/ obj/
+
+%/:
+	mkdir $@
 
 
 proj:$(BUILD_DIR)/$(EXEC)
