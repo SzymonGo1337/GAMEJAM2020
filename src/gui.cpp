@@ -81,3 +81,30 @@ void Button::clicked(sf::Window &target, buttonFunc make) {
         buttonShape.setFillColor(buttonColor);
     }
 }
+
+Slider::Slider(float x, float y, sf::Texture texture, sf::Texture textureTwo) {
+    pointTexture = texture;
+    pointShape.setTexture(&pointTexture);
+    pointShape.setPosition(10.0f, 10.0f);
+
+    slideTexture = textureTwo;
+    slideShape.setTexture(&slideTexture);
+    slideShape.setOrigin(0.0f, 0.0f);
+    slideShape.setPosition(x, y);
+}
+
+Slider::Slider(float x, float y, std::string texture, std::string textureTwo) {
+    pointTexture.loadFromFile(texture);
+    pointShape.setTexture(&pointTexture);
+    pointShape.setPosition(10.0f, 10.0f);
+
+    slideTexture.loadFromFile(textureTwo);
+    slideShape.setTexture(&slideTexture);
+    slideShape.setOrigin(0.0f, 0.0f);
+    slideShape.setPosition(x, y);
+}
+
+void Slider::draw(sf::RenderTarget &target) {
+    target.draw(slideShape);
+    target.draw(pointShape);
+}

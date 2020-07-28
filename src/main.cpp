@@ -1,13 +1,9 @@
 #include "gui.hpp"
 
-void test() {
-	std::cout << "isClicked" << std::endl;
-}
-
 int main(){
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML works!");
 
-	Button btn1(50.0f, 50.0f, "normal.png", "pressed.png");
+	Slider s1(20.0f, 20.0f, "point.png", "slider.png");
 
 	while (window->isOpen()){
 		sf::Event event;
@@ -18,8 +14,7 @@ int main(){
 
 		window->clear();
 
-		btn1.draw(*window);
-		btn1.clicked(*window, test);
+		s1.draw(*window);
 
 		window->display();
 	}
