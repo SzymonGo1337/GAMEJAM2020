@@ -24,12 +24,11 @@ include_directories(include)
 
 IF(WIN32)
 	link_directories(lib/win)
-	set_target_properties(Game PROPERTIES OUTPUT_NAME "Game.exe")
 ELSE()
 	link_directories(lib/linux)
-	set_target_properties(Game PROPERTIES OUTPUT_NAME "Game")
 ENDIF()
-
+	
+set_target_properties(Game PROPERTIES OUTPUT_NAME "Game")
 target_link_libraries(
 	Game
 	sfml-system
