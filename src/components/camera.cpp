@@ -1,21 +1,21 @@
 #include "camera.hpp"
 
-Camera::Camera(){
+Camera::Camera() {
 	//view.setCenter();
 }
 
-Camera::~Camera(){
+Camera::~Camera() {
 
 }
 
-void Camera::update(){
+void Camera::update() {
 
 }
 
-void Camera::zoom(float factor){
+void Camera::zoom(float factor) {
 	view.zoom(factor);
 }
 
-sf::View *Camera::getView(){
+sf::View *Camera::getView() {
 	return &view;
 }

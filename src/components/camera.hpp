@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class Camera{
+class Camera {
 private:
 	sf::View view;
 

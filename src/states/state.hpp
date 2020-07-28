@@ -1,15 +1,15 @@
 #pragma once
 
-class State{
+#include <stdio.h>
+
+class State {
 private:
 
 public:
-	State()
-	{
+	State() {
 
 	}
-	virtual ~State()
-	{
+	virtual ~State() {
 		
 	}
 

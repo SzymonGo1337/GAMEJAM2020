@@ -1,19 +1,19 @@
 #include "app.hpp"
 
-App::App(){
+App::App() {
 
 	window = new sf::RenderWindow(sf::VideoMode(1280, 720), "placeholder name");
 	window->setFramerateLimit(60);
 }
 
-App::~App(){
+App::~App() {
 
 	delete window;
 }
 
-void App::run(){
+void App::run() {
 
-	while(window->isOpen()){
+	while(window->isOpen()) {
 
 		updateEvents();
 		update();
@@ -22,25 +22,28 @@ void App::run(){
 	}
 }
 
-void App::updateEvents(){
+void App::updateEvents() {
 
-	while(window->pollEvent(event)){
+	while(window->pollEvent(event)) {
 
-		switch(event.type){
+		switch(event.type) {
 			case sf::Event::Closed: window->close(); break;
 		}
 
 	}
 }
 
-void App::update(){
+void App::update() {
+
+	sMan.getState()->update();
 
 }
 
-void App::render(){
+void App::render() {
 
 	window->clear();
 
+	sMan.getState()->render();
 
 	window->display();
 }
