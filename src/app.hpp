@@ -7,6 +7,8 @@ private:
 	sf::RenderWindow *window;
 	sf::Event event;
 
+	sf::Image icon;
+
 public:
 	App();
 	~App();
@@ -15,4 +17,5 @@ public:
 	void updateEvents();
 	void update();
 	void render();
+	void setIcon(std::string iconImage);
 };

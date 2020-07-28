@@ -14,7 +14,6 @@ App::~App(){
 void App::run(){
 
 	while(window->isOpen()){
-
 		updateEvents();
 		update();
 		render();
@@ -43,4 +42,9 @@ void App::render(){
 
 
 	window->display();
+}
+
+void App::setIcon(std::string iconImage) {
+	icon.loadFromFile(iconImage);
+	window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
