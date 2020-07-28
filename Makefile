@@ -4,7 +4,7 @@ OBJ_DIR=obj
 SRC_DIR=src
 BUILD_DIR=bin
 PREPROCESSOR=-Ddebug
-LIB_NAME=sfml-graphics sfml-window sfml-system
+LIB_NAME=sfml-graphics sfml-window sfml-system sfml-network sfml-audio
 LIB_DIR_PATH=lib/linux
 EXEC=a.out
 RM_CMD=rm -f
@@ -28,8 +28,8 @@ endif
 all: $(DIR) proj
 
 dirwin:
-	if not exist "bin\" mkdir bin\
-	if not exist "obj\" mkdir obj\
+	#if not exist bin mkdir bin
+	#if not exist obj mkdir obj
 
 dirlinux:
 	mkdir -p bin/
