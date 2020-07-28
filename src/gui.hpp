@@ -23,6 +23,7 @@ public:
     Button(float x, float y, sf::Vector2f size, sf::Color color, sf::Color colorTwo);
     Button(float x, float y, sf::Texture texture);
     Button(float x, float y, sf::Texture texture, sf::Texture textureTwo);
+    Button(float x, float y, std::string texture, std::string textureTwo);
     void draw(sf::RenderTarget &target);
     void clicked(sf::Window &target, buttonFunc make);
 };

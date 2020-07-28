@@ -7,13 +7,7 @@ void test() {
 int main(){
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML works!");
 
-	sf::Texture txt1;
-	txt1.loadFromFile("normal.png");
-
-	sf::Texture txt2;
-	txt2.loadFromFile("pressed.png");
-
-	Button btn1(50.0f, 50.0f, txt1, txt2);
+	Button btn1(50.0f, 50.0f, "normal.png", "pressed.png");
 
 	while (window->isOpen()){
 		sf::Event event;

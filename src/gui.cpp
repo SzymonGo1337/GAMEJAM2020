@@ -51,6 +51,17 @@ Button::Button(float x, float y, sf::Texture texture, sf::Texture textureTwo) {
     buttonShape.setPosition(buttonPosition);
 }
 
+Button::Button(float x, float y, std::string texture, std::string textureTwo) {
+    isColor = false;
+    isTexture = true;
+    buttonTexture.loadFromFile(texture);
+    buttonTextureTwo.loadFromFile(textureTwo);
+    buttonPosition = sf::Vector2f(x, y);
+    buttonShape.setSize(sf::Vector2f(buttonTexture.getSize().x, buttonTexture.getSize().y));
+    buttonShape.setTexture(&buttonTexture);
+    buttonShape.setPosition(buttonPosition);
+}
+
 void Button::draw(sf::RenderTarget &target) {
     target.draw(buttonShape);
 }
