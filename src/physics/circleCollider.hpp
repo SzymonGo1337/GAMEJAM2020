@@ -7,4 +7,6 @@ class CircleCollider : public Collider{
         float radius;
     public:
         CircleCollider();
+        float getColliderMaxSizeFromPivot();
+        bool isCollidingWith(Collider *collider);
 };

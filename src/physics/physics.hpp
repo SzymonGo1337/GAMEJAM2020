@@ -2,6 +2,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "collider.h"
-#include "rectangleCollider.h"
-#include "circleCollider.h"
+#include "collisionDetector.hpp"
+
+#include "collider.hpp"
+#include "rectangleCollider.hpp"
+#include "circleCollider.hpp"

@@ -8,4 +8,6 @@ class RectangleCollider : public Collider{
         float height;
     public:
         RectangleCollider();
+        float getColliderMaxSizeFromPivot();
+        bool isCollidingWith(Collider *collider);
 };
