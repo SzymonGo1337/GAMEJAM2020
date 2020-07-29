@@ -2,7 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "managers/stateManager.hpp"
-#include "states/menu.hpp"
+#include "states/game.hpp"
+
+#include "config.hpp"
 
 class App {
 private:
@@ -11,6 +13,8 @@ private:
 
 	StateManager sMan;
 
+	Config cfg;
+	
 	sf::Image icon;
 public:
 	App();
@@ -21,5 +25,5 @@ public:
 	void update();
 	void render();
 	
-	void setIcon(std::string iconImage);
+	void setIcon(const std::string &iconImage);
 };

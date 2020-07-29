@@ -1,6 +1,6 @@
 #pragma once
 
-#include "state.hpp"
+#include "../states/state.hpp"
 
 class StateManager {
 private:
