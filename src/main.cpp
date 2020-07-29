@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
+#include "physics/physics.hpp"
 
 int main(){
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
