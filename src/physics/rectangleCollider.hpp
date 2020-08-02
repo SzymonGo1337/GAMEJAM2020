@@ -1,6 +1,6 @@
 #pragma once
 
-#include "physics.hpp"
+#include "collider.hpp"
 
 class RectangleCollider : public Collider{
     public:
@@ -9,5 +9,4 @@ class RectangleCollider : public Collider{
     public:
         RectangleCollider();
         float getColliderMaxSizeFromPivot();
-        bool isCollidingWith(Collider *collider);
 };

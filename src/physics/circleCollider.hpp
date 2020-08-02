@@ -1,6 +1,6 @@
 #pragma once
 
-#include "physics.hpp"
+#include "collider.hpp"
 
 class CircleCollider : public Collider{
     public:
@@ -8,5 +8,4 @@ class CircleCollider : public Collider{
     public:
         CircleCollider();
         float getColliderMaxSizeFromPivot();
-        bool isCollidingWith(Collider *collider);
 };
