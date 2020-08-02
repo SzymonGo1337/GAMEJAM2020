@@ -3,6 +3,8 @@
 #include <SFML/Graphics/Color.hpp>
 #include <vector>
 
+#include "../util.hpp"
+
 /**
  * Represents gradient
  * 
@@ -34,6 +36,12 @@ public:
 	 * Creates gradient filed with passed colors in equal distance, first color at position=0, and last one at position=1
 	 */
 	ColorGradient(std::initializer_list<sf::Color> colors);
+	/**
+	 * Create gradient from passed keys.
+	 * @param keys with sorted position
+	 * @throw std::invalid_argument when keys::position is not in order, or keys::position is out of range [0;1]
+	 */
+	ColorGradient(std::initializer_list<GradientKey> keys);
 
 	/**
 	 * Adds new key to gradient

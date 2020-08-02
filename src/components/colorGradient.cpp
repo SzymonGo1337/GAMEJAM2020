@@ -1,5 +1,7 @@
 #include "colorGradient.hpp"
 
+#include <stdexcept>
+
 ColorGradient::GradientKey::GradientKey() : // default
 	position(-1),
 	color(0,0,0) {}
@@ -19,7 +21,7 @@ ColorGradient::ColorGradient(std::initializer_list<sf::Color> colors) {
 	unsigned int size = colors.size();
 	if(size <= 0) return;
 
-	values.resize(colors.size());
+	values.resize(size);
 	if(size == 1) { // special case
 		values[0].position = 0;
 		values[0].color = *(colors.begin());
@@ -33,6 +35,25 @@ ColorGradient::ColorGradient(std::initializer_list<sf::Color> colors) {
 	for(it = colors.begin() ; it != colors.end() ; ++it, ++i){
 		values[i].position = step * i;
 		values[i].color = *it;
+	}
+}
+
+ColorGradient::ColorGradient(std::initializer_list<GradientKey> keys) {
+	float lastPos = 0;
+	unsigned int size = keys.size();
+
+	values.resize(size);
+	if(size==0) throw std::invalid_argument("param 'keys' is empty");
+	std::initializer_list<GradientKey>::iterator it;
+
+	int i = 0;
+	for(it = keys.begin() ; it != keys.end() ; ++it, ++i){
+		if(it->position < lastPos) throw std::invalid_argument("keys are not in order");
+		if(it->position > 1) throw std::invalid_argument("one or more of keys are >1");
+		lastPos = it->position;
+		
+		values[i].color = it->color;
+		values[i].position = it->position;
 	}
 }
 
@@ -134,6 +155,8 @@ sf::Color ColorGradient::evaluate(float position){
 
 	sf::Color startColor = startKey.color;
 	sf::Color endColor = endKey.color;
+
+	position = clamp(position, startKey.position, endKey.position);
 
 	// map position in [start ; end] to position in [0 ; 1]
 	float t = (position - startKey.position) * (1.0f / (endKey.position - startKey.position));

@@ -1,5 +1,7 @@
 #include "util.hpp"
 
+#include <SFML/Graphics/Color.hpp>
+
 MinMaxf::MinMaxf(float min, float max){
 	if(max < min){
 		float tmp = max;
@@ -51,6 +53,18 @@ float lerp(float start, float end, float t) {
 	return (end - start) * t + start;
 }
 
+float clamp(float value, float min, float max){
+	if(value < min) return min;
+	if(value > max) return max;
+	return value;
+}
+
 float randomFloat() {
 	return std::rand()/float(RAND_MAX);
+}
+
+
+std::ostream& operator<<(std::ostream &out, const sf::Color &c) {
+	out << "rgba{" << (int)c.r << ", " << (int)c.g << ", " << (int)c.b << ", " << (int)c.a << "}";
+	return out;
 }

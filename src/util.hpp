@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <SFML/Graphics/Color.hpp>
+
 // angle in degrees * deg2rad == angle in radians
 #define deg2rad 0.017453293
 // angle in radians * rad2deg == angle in degrees
@@ -40,7 +42,13 @@ public:
 
 float lerp(float start, float end, float t);
 
+float clamp(float value, float min, float max);
+
 /**
  * @returns random value between 0 (inclusive) and 1 (exclusive)
  */
 float randomFloat();
+
+
+
+std::ostream& operator<<(std::ostream &out, const sf::Color &c);
