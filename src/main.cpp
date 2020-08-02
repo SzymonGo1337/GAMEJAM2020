@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "gui/gui.hpp"
+#include "gui.hpp"
 
 void test(float var) {
 	std::cout << var << std::endl;

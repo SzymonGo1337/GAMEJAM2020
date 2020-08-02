@@ -97,7 +97,8 @@ Slider::Slider(float x, float y, sf::Color color, sf::Color colorTwo) {
     pointColor = color;
     pointShape.setFillColor(color);
     pointShape.setSize(sf::Vector2f(25.0, 25.0f));
-    pointShape.setPosition(x, y - 5.0f);
+    pointShape.setOrigin(12.5f, 12.5f);
+    pointShape.setPosition(x, y + 7.25f);
 
     slideColor = colorTwo;
     slideShape.setFillColor(colorTwo);
@@ -113,8 +114,14 @@ void Slider::draw(sf::RenderTarget &target) {
 void Slider::clicked(sf::Window &target, sliderFunc make) {
     if(pointShape.getGlobalBounds().contains(sf::Mouse::getPosition(target).x, sf::Mouse::getPosition(target).y)) {
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            pointShape.setPosition(sf::Mouse::getPosition(target).x, pointShape.getPosition().y);
-            make(pointShape.getPosition().x / 100);
+            if(pointShape.getPosition().x < slideShape.getPosition().x) {
+                pointShape.setPosition(slideShape.getPosition().x, pointShape.getPosition().y);
+            } else if(pointShape.getPosition().x > slideShape.getPosition().x + slideShape.getSize().x) {
+                pointShape.setPosition(slideShape.getPosition().x + slideShape.getSize().x, pointShape.getPosition().y);
+            } else {
+                pointShape.setPosition(sf::Mouse::getPosition(target).x, pointShape.getPosition().y);
+            }
+            make(pointShape.getPosition().x - slideShape.getPosition().x);
         }
     }
 }
