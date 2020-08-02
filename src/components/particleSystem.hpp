@@ -1,11 +1,32 @@
 #pragma once
 
-
 #include <SFML/Graphics.hpp>
-#include <cmath>
 
 #include "animationCurve.hpp"
+#include "../util.hpp"
 
+
+/*
+Emmiter rotation and angle:
+
+     ^ Y axis
+     |
+     |
+\  _____  /
+ \/     \/_
+  \  b  /  \
+   \   / \  \
+    \ / a |  |
+-----o-------|----> X axis
+      \      |
+       \ b  / 
+        \__/
+         \
+
+
+a - rotation
+b - angle * 0.5
+*/
 class ParticleSystem : public sf::Drawable, public sf::Transformable {
 private:
 	struct Particle {
@@ -13,73 +34,36 @@ private:
         float lifetime;
     };
 
-
     std::vector<Particle> particles;
     sf::VertexArray vertices;
 
 public: 
-    sf::Vector2f emitter;
-	float lifeTime;
-	float rotation;
-	float angle;
+    sf::Vector2f emitterPosition;
+	/** degree */
+	float emitterRotation = 0;
+	/** degree */
+	float emissionAngle = 45;
+	/** use '-1' for infinite */
+	float emissionTime = -1;
+	
+	MinMax particleLifeTime;
+	MinMax particleSpeed;
+
+
 	AnimationCurveFunction animationCurve;
 
-    ParticleSystem(unsigned int count) :
-		particles(count),
-		vertices(sf::Points, count),
-		lifeTime(3),
-		emitter(0.f, 0.f)
-	{
-		animationCurve = AnimationCurve::EaseInOut;
-    }
+    ParticleSystem(unsigned int count);
 
-    void setEmitter(sf::Vector2f position) {
-        emitter = position;
-    }
+    void setEmitter(sf::Vector2f position);
 
-    void update(float deltaTime) {
-        for (std::size_t i = 0; i < particles.size(); ++i) {
-            // update the particle lifetime
-            Particle& p = particles[i];
-            p.lifetime -= deltaTime;
-
-            // if the particle is dead, respawn it
-            if (p.lifetime <= 0)
-                resetParticle(i);
-
-            // update the position of the corresponding vertex
-            vertices[i].position += p.velocity * deltaTime;
-
-            // update the alpha (transparency) of the particle according to its lifetime
-            float ratio = p.lifetime / lifeTime;
-            vertices[i].color.a = static_cast<sf::Uint8>(ratio * 255);
-        }
-    }
+    void update(float deltaTime);
 
 
 private:
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
-        // apply the transform
-        states.transform *= getTransform();
-
-        // our particles don't use a texture
-        states.texture = NULL;
-
-        // draw the vertex array
-        target.draw(vertices, states);
-    }
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
    
-    void resetParticle(std::size_t index) {
-        // give a random velocity and lifetime to the particle
-        float angle = (std::rand() % 360) * 3.14f / 180.f;
-        float speed = (std::rand() % 50) + 50.f;
-        particles[index].velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
-        particles[index].lifetime = (std::rand() % 2000) + 1000;
-
-        // reset the position of the corresponding vertex
-        vertices[index].position = emitter;
-    }
+    void resetParticle(std::size_t index);
 
 };
