@@ -7,6 +7,7 @@
 
 #include <string>
 #include <sstream>
+#include <cmath>
 
 std::string str(const float &v){
 	return std::to_string(v);
@@ -53,13 +54,32 @@ int main(){
 	pSys.emissionAngle = 20;
 	pSys.emitterRotation = 0;
 	pSys.particleLifeTime = {4.f, 6.f};
+	pSys.emissionTime = -1; // -1 mean infinite emissionTime
+
+	/*
+	Other interesting curves:
+		AnimationCurve::EaseInOut  
+		AnimationCurve::EaseIn
+		AnimationCurve::EaseOut
+		AnimationCurve::Linear
+		[](float f){return (float)pow(f, 2);}; //fast ending
+		[](float f){return (float)pow(f, 0.5);}; //fast begining
+		[](float f){return 1-(float)sqrt(1-f*f);}; //const acceleration of transition
+		[](float f){return 1-(float)pow(1-sqrt(f),2);}; //const acceleration of transition (inverted)
+		for f in [0;1] returned value must be in [0;1]
+	*/
+	pSys.colorAnimationCurve = AnimationCurve::EaseInOut;
 	pSys.particleColor = ColorGradient{
 		{0.00f, sf::Color::White},
-		{0.26f, sf::Color::Red},
-		{0.50f, sf::Color::Blue},
-		{0.75f, sf::Color::Green},
-		{0.87f, sf::Color(255,255,0, 128)},
-		{1.00f, sf::Color(255,0,0,0)}
+		{0.33f, sf::Color::Red},
+		{0.66f, sf::Color::Green},
+		{1.00f, sf::Color(255,255,255,0)},
+		// {0.00f, sf::Color::White},
+		// {0.26f, sf::Color::Red},
+		// {0.50f, sf::Color::Blue},
+		// {0.75f, sf::Color::Green},
+		// {0.87f, sf::Color(255,255,0, 128)},
+		// {1.00f, sf::Color(255,0,0,0)}
 	};
 
 	pSys.debugDraw = true;
@@ -97,7 +117,7 @@ int main(){
 	gradient1.addKey(0.5f, sf::Color(255, 255, 255));
 	gradient1.addKey(0.0f, sf::Color(255, 0, 0));
 
-	glPointSize(2.f);
+	glPointSize(2.f); //size of particles
 	
 	//window.setFramerateLimit(2);
 	while (window.isOpen()){
@@ -106,7 +126,11 @@ int main(){
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if(event.type == sf::Event::MouseButtonPressed){
-				pSys.debugDraw = !pSys.debugDraw;
+				if(event.mouseButton.button == sf::Mouse::Button::Right)
+					pSys.resetEmitter();
+				else 
+					pSys.debugDraw = !pSys.debugDraw;
+				
 			}
 			if (event.type == sf::Event::MouseMoved){
 				float y = event.mouseMove.y;
@@ -142,8 +166,8 @@ int main(){
 
 		window.clear();
 
-		// window.draw(test0);
-		// window.draw(test1);
+		// window.draw(test0); //Gradient test 1
+		// window.draw(test1); //Gradient test 2
 		window.draw(pSys);
 
 

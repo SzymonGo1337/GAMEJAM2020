@@ -23,10 +23,11 @@ void ParticleSystem::update(float deltaTime) {
 	if(unusedParticles > 0 && (emissionTime < 0 || currentEmissionTime < emissionTime)){
 		if(particlesToEmit > 1){
 			int nowEmitted = (int)particlesToEmit;
-			nowEmitted = clamp(nowEmitted, 0, unusedParticles);
+			nowEmitted = clamp(nowEmitted, 0, unusedParticles); //limit to free particles
+
 			particlesToEmit -= nowEmitted;
 			while (nowEmitted--) {
-				lastEmittedParticleIndex = (++lastEmittedParticleIndex) % particles.size();
+				lastEmittedParticleIndex = (lastEmittedParticleIndex+1) % particles.size();
 				emitParticle(lastEmittedParticleIndex);
 			}
 			
@@ -50,7 +51,7 @@ void ParticleSystem::update(float deltaTime) {
 
 		vertices[i].position += p.velocity * deltaTime;
 
-		float lifeTimeRatio = p.lifetime / particleLifeTime.getMax();
+		float lifeTimeRatio = clamp(p.lifetime / particleLifeTime.getMax(), 0.f, 1.f);
 		float gradientPos = colorAnimationCurve(1 - lifeTimeRatio);
 		vertices[i].color = particleColor.evaluate(gradientPos);
 		
@@ -130,7 +131,8 @@ void ParticleSystem::resetEmitter() {
 	lastEmittedParticleIndex = 0;
 	unusedParticles = particles.size();
 	currentEmissionTime = 0;
-	for(int i = 0 ; i < vertices.getVertexCount() ; i++){
+	for(unsigned int i = 0 ; i < particles.size() ; i++){
+		particles[i].lifetime = 0;
 		vertices[i].color = sf::Color::Transparent;
 	}
 }
