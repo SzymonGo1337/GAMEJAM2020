@@ -53,14 +53,14 @@ public:
 	/**
 	 * @returns number of keys
 	 */
-	int getKeysCount();
+	int getKeysCount() const;
 
 	/**
 	 * Returns gradient key
 	 * @param index Index of key
 	 * @returns gradient key at index or first/last gradient key if index < 0 or index >= getKeysCount()
 	 */
-	GradientKey getKey(unsigned int index);
+	GradientKey getKey(unsigned int index) const;
 
 	
 	/**
@@ -76,7 +76,7 @@ public:
 	 * @param array array to fill with keys
 	 * @returns number of keys
 	 */
-	int getAllKeys(GradientKey *array);
+	void getAllKeys(GradientKey *array) const;
 
 	/**
 	 * Removes key at specific index or do nothing if index is out of bounds
@@ -86,20 +86,20 @@ public:
 	/**
 	 * @returns index of closest left key to specific position
 	 */
-	unsigned int getLeftKeyIndexFor(float position);
+	unsigned int getLeftKeyIndexFor(float position) const;
 
 	/**
 	 * Calcs gradient color at specific position
 	 * @param position value to evaluate (for <0 is 0; for >1 is 1 )
 	 * @returns color for passed value
 	 */
-	sf::Color evaluate(float position);
+	sf::Color evaluate(float position) const;
 
 	/**
 	 * Alias for evaluate(float)
 	 * @see #evaluate(float)
 	 */
-	inline sf::Color colorAt(float position){
+	inline sf::Color colorAt(float position) const {
 		return evaluate(position);
 	}
 };

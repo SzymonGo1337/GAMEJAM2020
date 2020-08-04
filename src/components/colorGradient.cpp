@@ -14,7 +14,7 @@ ColorGradient::GradientKey::GradientKey(float pPosition, sf::Color pColor) : // 
 	position(pPosition),
 	color(pColor) {}
 
-ColorGradient::ColorGradient(){
+ColorGradient::ColorGradient() {
 }
 
 ColorGradient::ColorGradient(std::initializer_list<sf::Color> colors) {
@@ -57,7 +57,7 @@ ColorGradient::ColorGradient(std::initializer_list<GradientKey> keys) {
 	}
 }
 
-void ColorGradient::addKey(float position, sf::Color color){
+void ColorGradient::addKey(float position, sf::Color color) {
 	if(position < 0) position = 0;
 	else if(position > 1) position = 1;
 
@@ -77,17 +77,17 @@ void ColorGradient::addKey(float position, sf::Color color){
 
 }
 
-int ColorGradient::getKeysCount(){
+int ColorGradient::getKeysCount() const {
 	return values.size();
 }
 
 // undefined behavior for values.size() == 0
-ColorGradient::GradientKey ColorGradient::getKey(unsigned int index){
+ColorGradient::GradientKey ColorGradient::getKey(unsigned int index) const {
 	if(index >= values.size()) index = values.size() - 1;
 	return values[index];
 }
 
-void ColorGradient::setKey(unsigned int index, float position, sf::Color color){
+void ColorGradient::setKey(unsigned int index, float position, sf::Color color) {
 	if(index >= values.size()) return;
 
 	float left = -1;
@@ -107,28 +107,28 @@ void ColorGradient::setKey(unsigned int index, float position, sf::Color color){
 	}
 }
 
-void ColorGradient::setKey(unsigned int index, float position){
+void ColorGradient::setKey(unsigned int index, float position) {
 	setKey(index, position, values[index].color);
 }
 
-void ColorGradient::setKey(unsigned int index, sf::Color color){
+void ColorGradient::setKey(unsigned int index, sf::Color color) {
 	if(index >= values.size()) return;
 
 	values[index].color = color;
 }
 
-int ColorGradient::getAllKeys(GradientKey *array){
+void ColorGradient::getAllKeys(GradientKey *array) const {
 	for (int i = 0 ; i < values.size() ; i++){
 		array[0] = values[i];
 	}
 }
 
-void ColorGradient::removeKey(unsigned int index){
+void ColorGradient::removeKey(unsigned int index) {
 	if(index >= values.size()) return;
 	values.erase(values.begin() + index);
 }
 
-unsigned int ColorGradient::getLeftKeyIndexFor(float position){
+unsigned int ColorGradient::getLeftKeyIndexFor(float position) const {
 	unsigned int last = 0;
 	// gradients do not have a lot of points so O(n) is good enough
 	for(int i = 0 ; i < values.size() && values[i].position < position; i++){
@@ -139,11 +139,11 @@ unsigned int ColorGradient::getLeftKeyIndexFor(float position){
 }
 
 // Not in ColorGradient. Just for use in ColorGradient::evaluate
-inline sf::Uint8 LerpColorComponent(sf::Uint8 start, sf::Uint8 end, float t){
+inline sf::Uint8 LerpColorComponent(sf::Uint8 start, sf::Uint8 end, float t) {
 	return (sf::Uint8)((end - start) * t + start);
 }
 
-sf::Color ColorGradient::evaluate(float position){
+sf::Color ColorGradient::evaluate(float position) const {
 	unsigned index = getLeftKeyIndexFor(position);
 
 	if(index + 1 >= getKeysCount()){ //its last point

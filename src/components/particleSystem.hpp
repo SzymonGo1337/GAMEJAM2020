@@ -78,23 +78,23 @@ public:
 	/**
 	 * @returns true when emitter was emiting for 'emissionTime` seconds.
 	 */
-	bool finished();
+	bool finished() const;
 
 	void resetEmitter();
 
-	float getEmissionTimeElapsed();
+	float getEmissionTimeElapsed() const;
 
 	/**
 	 * @returns number of particles currently not used in render 
 	 */
-	int getFreeParticlesCount();
+	int getFreeParticlesCount() const;
 
 	/**
 	 * @returns number of particles currently used in render 
 	 */
-	int getUsedParticlesCount();
+	int getUsedParticlesCount() const;
 
-	int getParticlesCount();
+	int getParticlesCount() const;
 
 private:
 

@@ -123,7 +123,7 @@ void ParticleSystem::emitParticle(std::size_t index) {
 	--unusedParticles;
 }
 
-bool ParticleSystem::finished() {
+bool ParticleSystem::finished() const {
 	return currentEmissionTime > emissionTime;
 }
 
@@ -137,18 +137,18 @@ void ParticleSystem::resetEmitter() {
 	}
 }
 
-float ParticleSystem::getEmissionTimeElapsed() {
+float ParticleSystem::getEmissionTimeElapsed() const {
 	return currentEmissionTime;
 }
 
-int ParticleSystem::getFreeParticlesCount() {
+int ParticleSystem::getFreeParticlesCount() const {
 	return unusedParticles;
 }
 
-int ParticleSystem::getUsedParticlesCount() {
+int ParticleSystem::getUsedParticlesCount() const {
 	return particles.size() - unusedParticles;
 }
 
-int ParticleSystem::getParticlesCount() {
+int ParticleSystem::getParticlesCount() const {
 	return particles.size();
 }
