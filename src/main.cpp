@@ -48,13 +48,15 @@ int main(){
 	debugText.setPosition(10, 10);
 	debugText.setCharacterSize(16);
 
-	ParticleSystem pSys(5000);
+	ParticleSystem pSys(3100);
 	pSys.emitterPosition = sf::Vector2f(1500/2, 843/2);
 	pSys.emissionRate = 100;
-	pSys.emissionAngle = 20;
-	pSys.emitterRotation = 0;
+	pSys.emitterShape = new ParticleSystemShapeBox(sf::Vector2f(100, 20));
+	pSys.emitterShape->rotation = 0;
+	pSys.emitterShape->angle = 45;
 	pSys.particleLifeTime = {4.f, 6.f};
 	pSys.emissionTime = -1; // -1 mean infinite emissionTime
+
 
 	/*
 	Other interesting curves:
@@ -69,7 +71,7 @@ int main(){
 		for f in [0;1] returned value must be in [0;1]
 	*/
 	pSys.colorAnimationCurve = AnimationCurve::EaseInOut;
-	pSys.particleColor = ColorGradient{
+	pSys.particleColorOverLifetime = ColorGradient{
 		{0.00f, sf::Color::White},
 		{0.33f, sf::Color::Red},
 		{0.66f, sf::Color::Green},
@@ -82,9 +84,13 @@ int main(){
 		// {1.00f, sf::Color(255,0,0,0)}
 	};
 
-	pSys.debugDraw = true;
+	pSys.particleSize = 3;
+	pSys.scaleOverLifetime = [](float f){return 2*(-f*(f-2));};
 
-	std::cout << pSys.particleColor.evaluate(0.1f) << std::endl; //todo: fixme
+	pSys.particleRotationSpeed = 180;
+	pSys.rotationSpeedScaleOverLifetime = [](float f){return ((f<0.8f) ? (0.8f-f) : (0.f));};
+
+	pSys.debugDraw = true;
 
 	sf::RectangleShape test0(sf::Vector2f(100, 100));
 	test0.setOrigin(50,50);
@@ -134,7 +140,9 @@ int main(){
 			}
 			if (event.type == sf::Event::MouseMoved){
 				float y = event.mouseMove.y;
-				pSys.emissionRate = 2000 * (y / window.getSize().y);
+				float x = event.mouseMove.x;
+				pSys.emissionRate = 500 * (y / window.getSize().y);
+				pSys.emitterShape->angle = 270 * (x / window.getSize().x);
 				//pSys.emitterPosition = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
 			}
 		}
@@ -143,10 +151,10 @@ int main(){
 		float deltaTime = dt.asSeconds();
 
 		t += deltaTime/duration;
-		pSys.emitterRotation += 20 * deltaTime;
+		pSys.emitterShape->rotation += 20 * deltaTime;
 
 		limitUp(t, 1);
-		limitUp(pSys.emitterRotation, 360);
+		limitUp(pSys.emitterShape->rotation, 360);
 
 		test0.setFillColor( gradient0.evaluate(t) );
 		test1.setFillColor( gradient1.evaluate(t) );
@@ -156,8 +164,10 @@ int main(){
 
 
 		debugText.setString(
-			  "ps.r: " + str(pSys.emitterRotation) 
-			+ "; speed: MinMax{"+ str(pSys.particleSpeed.getMin()) + ";" + str(pSys.particleSpeed.getMax())+"}"
+			  "FPS: " + str(1/deltaTime) + "; dt: "+ str(deltaTime)
+			+ "\nrotation: " + str(pSys.emitterShape->rotation) 
+			+ "; angle: " + str(pSys.emitterShape->angle)
+			+ "\nspeed: MinMax{"+ str(pSys.particleSpeed.getMin()) + ";" + str(pSys.particleSpeed.getMax())+"}"
 			+ "\nemissionRate: " + str(pSys.emissionRate) 
 			+ "\nemissionTime: " + str(pSys.getEmissionTimeElapsed()) + " / " + str(pSys.emissionTime)
 			+ "\nusedParticles: " + str(pSys.getUsedParticlesCount()) + " / " + str(pSys.getParticlesCount())

@@ -30,7 +30,7 @@ std::ostream& operator<< (std::ostream &out, const MinMaxf &mm){
 
 MinMaxi::MinMaxi(int min, int max) {
 	if(max < min){
-		float tmp = max;
+		int tmp = max;
 		max = min;
 		min = tmp;
 	}
@@ -73,5 +73,9 @@ float randomFloat() {
 
 std::ostream& operator<<(std::ostream &out, const sf::Color &c) {
 	out << "rgba{" << (int)c.r << ", " << (int)c.g << ", " << (int)c.b << ", " << (int)c.a << "}";
+	return out;
+}
+std::ostream& operator<<(std::ostream &out, const sf::Vector2f &v){
+	out << "[" << v.x << ";" << v.y << "]";
 	return out;
 }

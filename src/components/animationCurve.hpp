@@ -11,6 +11,10 @@ typedef float (*AnimationCurveFunction)(float time);
 // Desmos preview: https://www.desmos.com/calculator/opvmsvdq0x
 namespace AnimationCurve{
 
+	inline float One(float t){
+		return 1;
+	}
+
 	inline float Linear(float t){
 		return t;
 	}

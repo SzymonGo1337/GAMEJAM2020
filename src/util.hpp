@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 
 // angle in degrees * deg2rad == angle in radians
 #define deg2rad 0.017453293
@@ -53,3 +54,4 @@ float randomFloat();
 
 
 std::ostream& operator<<(std::ostream &out, const sf::Color &c);
+std::ostream& operator<<(std::ostream &out, const sf::Vector2f &c);
