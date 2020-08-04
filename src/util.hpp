@@ -43,6 +43,7 @@ public:
 float lerp(float start, float end, float t);
 
 float clamp(float value, float min, float max);
+int clamp(int value, int min, int max);
 
 /**
  * @returns random value between 0 (inclusive) and 1 (exclusive)

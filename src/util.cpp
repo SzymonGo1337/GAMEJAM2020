@@ -53,11 +53,18 @@ float lerp(float start, float end, float t) {
 	return (end - start) * t + start;
 }
 
-float clamp(float value, float min, float max){
+float clamp(float value, float min, float max) {
 	if(value < min) return min;
 	if(value > max) return max;
 	return value;
 }
+
+int clamp(int value, int min, int max) { 
+	if(value < min) return min;
+	if(value > max) return max;
+	return value;
+}
+
 
 float randomFloat() {
 	return std::rand()/float(RAND_MAX);
