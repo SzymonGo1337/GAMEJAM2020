@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "time.hpp"
 
 App::App() {
 
@@ -23,8 +24,10 @@ App::~App() {
 void App::run() {
 
 	//main loop
+	GameTime::init();
 	while(window->isOpen()) {
-
+		
+		GameTime::update();
 		updateEvents();
 		update();
 		render();
