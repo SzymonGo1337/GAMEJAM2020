@@ -49,13 +49,11 @@ public:
 
 class ParticleSystemShapeBox : public ParticleSystemShape {
 public:
-	float rotation;
-	float angle;
 	sf::Vector2f size;
 
-	ParticleSystemShapeBox() : rotation(0), angle(0), size(10,10) {}
+	ParticleSystemShapeBox() : ParticleSystemShape(), size(10,10) {}
 	ParticleSystemShapeBox(sf::Vector2f pSize, float pRotation = 0.f, float pAngle = 0.f) :
-		rotation(pRotation),  angle(pAngle), size(pSize) {}
+		ParticleSystemShape(pRotation, pAngle), size(pSize) {}
 
 	
 	virtual sf::Vector2f getParticlePosition() const override;

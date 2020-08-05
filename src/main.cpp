@@ -32,7 +32,7 @@ std::string toStr(const sf::Color &c){
 
 int main(){
 
-	sf::RenderWindow window(sf::VideoMode(1500, 843), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1800, 1012), "SFML works!");
 
 	sf::Clock clock;
 
@@ -44,18 +44,20 @@ int main(){
 
 	sf::Text debugText;
 	debugText.setFont(font);
-	debugText.setColor(sf::Color::White);
+	debugText.setFillColor(sf::Color::White);
 	debugText.setPosition(10, 10);
 	debugText.setCharacterSize(16);
 
 	ParticleSystem pSys(3100);
-	pSys.emitterPosition = sf::Vector2f(1500/2, 843/2);
-	pSys.emissionRate = 100;
-	pSys.emitterShape = new ParticleSystemShapeBox(sf::Vector2f(100, 20));
-	pSys.emitterShape->rotation = 0;
-	pSys.emitterShape->angle = 45;
-	pSys.particleLifeTime = {4.f, 6.f};
+	pSys.emitterPosition = sf::Vector2f(1800/2, 1012/2);
+	pSys.emissionRate = 50;
+	pSys.emitterShape = new ParticleSystemShapeBox(sf::Vector2f(500, 50));
+	pSys.emitterShape->rotation = -45;
+	pSys.emitterShape->angle = 0;
+	pSys.particleLifeTime = {10.f, 15.f};
 	pSys.emissionTime = -1; // -1 mean infinite emissionTime
+	pSys.particleSpeed = {200, 300};
+	pSys.particleGravity = sf::Vector2f(0,100);
 
 
 	/*
@@ -72,10 +74,12 @@ int main(){
 	*/
 	pSys.colorAnimationCurve = AnimationCurve::EaseInOut;
 	pSys.particleColorOverLifetime = ColorGradient{
-		{0.00f, sf::Color::White},
-		{0.33f, sf::Color::Red},
-		{0.66f, sf::Color::Green},
-		{1.00f, sf::Color(255,255,255,0)},
+		{0.00f, sf::Color(128,128,255,0)},
+		{0.1f, sf::Color(128,128,255,255)},
+		//{0.80f, sf::Color(128,128,255,255)},
+		//{0.33f, sf::Color::Red},
+		//{0.66f, sf::Color::Red},
+		//{1.00f, sf::Color(128,128,255,0)},
 		// {0.00f, sf::Color::White},
 		// {0.26f, sf::Color::Red},
 		// {0.50f, sf::Color::Blue},
@@ -85,7 +89,7 @@ int main(){
 	};
 
 	pSys.particleSize = 3;
-	pSys.scaleOverLifetime = [](float f){return 2*(-f*(f-2));};
+	pSys.scaleOverLifetime = [](float f){return 1 - AnimationCurve::EaseOut(f);/*2-2*(-f*(f-2));*/};
 
 	pSys.particleRotationSpeed = 180;
 	pSys.rotationSpeedScaleOverLifetime = [](float f){return ((f<0.8f) ? (0.8f-f) : (0.f));};
@@ -141,8 +145,8 @@ int main(){
 			if (event.type == sf::Event::MouseMoved){
 				float y = event.mouseMove.y;
 				float x = event.mouseMove.x;
-				pSys.emissionRate = 500 * (y / window.getSize().y);
-				pSys.emitterShape->angle = 270 * (x / window.getSize().x);
+				//pSys.emissionRate = 500 * (y / window.getSize().y);
+				//pSys.emitterShape->angle = 270 * (x / window.getSize().x);
 				//pSys.emitterPosition = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
 			}
 		}
@@ -151,7 +155,7 @@ int main(){
 		float deltaTime = dt.asSeconds();
 
 		t += deltaTime/duration;
-		pSys.emitterShape->rotation += 20 * deltaTime;
+		//pSys.emitterShape->rotation += 20 * deltaTime;
 
 		limitUp(t, 1);
 		limitUp(pSys.emitterShape->rotation, 360);
