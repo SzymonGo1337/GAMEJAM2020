@@ -113,7 +113,7 @@ public:
 
     ParticleSystem(unsigned int count);
 
-    void update(float deltaTime);
+    void update();
 
 	/**
 	 * @returns true when emitter was emiting for 'emissionTime` seconds.
@@ -138,7 +138,7 @@ public:
 
 private:
 
-	void updateDebug(float deltaTime);
+	void updateDebug();
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    

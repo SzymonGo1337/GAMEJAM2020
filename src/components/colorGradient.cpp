@@ -77,7 +77,7 @@ void ColorGradient::addKey(float position, sf::Color color) {
 
 }
 
-int ColorGradient::getKeysCount() const {
+unsigned int ColorGradient::getKeysCount() const {
 	return values.size();
 }
 
@@ -144,7 +144,7 @@ inline sf::Uint8 LerpColorComponent(sf::Uint8 start, sf::Uint8 end, float t) {
 }
 
 sf::Color ColorGradient::evaluate(float position) const {
-	unsigned index = getLeftKeyIndexFor(position);
+	unsigned int index = getLeftKeyIndexFor(position);
 
 	if(index + 1 >= (unsigned)getKeysCount()){ //its last point
 		return values[index].color;

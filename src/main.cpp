@@ -1,24 +1,9 @@
-#include <SFML/Graphics.hpp>
-#include "time.hpp"
+#include "app.hpp"
 
-int main(){
-
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
-
-	GameTime::init();
-	while (window.isOpen()){
-		GameTime::update();
-
-		sf::Event event;
-		while (window.pollEvent(event)){
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		
-		window.clear();
-
-		window.display();
-	}
-
+int main(int argc, char* args[]) {
+	
+	App app;
+	app.run();
+	
 	return 0;
 }
