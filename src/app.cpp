@@ -42,14 +42,6 @@ void App::run() {
 		update();
 		render();
 
-
-
-		//printf("%f\n", deltaTime);
-		//printf("%d\n", fps);
-
-		//update time
-		deltaTime = clock.getElapsedTime().asSeconds();
-		fps = 1 / deltaTime;
 	}
 }
 
@@ -67,7 +59,7 @@ void App::updateEvents() {
 
 void App::update() {
 
-	sMan.getState()->update(deltaTime);
+	sMan.getState()->update();
 
 }
 

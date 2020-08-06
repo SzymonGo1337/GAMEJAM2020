@@ -10,15 +10,7 @@ Camera::~Camera() {
 	entity = nullptr;
 }
 
-void Camera::update(const float &dt) {
-
-	if(shake) {
-
-		if(rand()%2 == 1) {
-
-			view.move((rand()%shakeForceX)*dt, (rand()%shakeForceY)*dt);
-			
-		} else {
+void Camera::update() {
 
 	if(shake) {
 
