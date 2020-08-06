@@ -118,7 +118,7 @@ void ColorGradient::setKey(unsigned int index, sf::Color color) {
 }
 
 void ColorGradient::getAllKeys(GradientKey *array) const {
-	for (int i = 0 ; i < values.size() ; i++){
+	for (size_t i = 0 ; i < values.size() ; i++){
 		array[0] = values[i];
 	}
 }
@@ -131,7 +131,7 @@ void ColorGradient::removeKey(unsigned int index) {
 unsigned int ColorGradient::getLeftKeyIndexFor(float position) const {
 	unsigned int last = 0;
 	// gradients do not have a lot of points so O(n) is good enough
-	for(int i = 0 ; i < values.size() && values[i].position < position; i++){
+	for(size_t i = 0 ; i < values.size() && values[i].position < position; i++){
 		last = i;
 	}
 	
@@ -146,7 +146,7 @@ inline sf::Uint8 LerpColorComponent(sf::Uint8 start, sf::Uint8 end, float t) {
 sf::Color ColorGradient::evaluate(float position) const {
 	unsigned index = getLeftKeyIndexFor(position);
 
-	if(index + 1 >= getKeysCount()){ //its last point
+	if(index + 1 >= (unsigned)getKeysCount()){ //its last point
 		return values[index].color;
 	}
 

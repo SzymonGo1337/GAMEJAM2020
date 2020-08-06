@@ -3,7 +3,7 @@
 
 int main(){
 
-	sf::RenderWindow window(sf::VideoMode(1800, 1012), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
 	GameTime::init();
 	while (window.isOpen()){
@@ -15,7 +15,9 @@ int main(){
 				window.close();
 		}
 		
+		window.clear();
 
+		window.display();
 	}
 
 	return 0;
