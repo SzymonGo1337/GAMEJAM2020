@@ -17,7 +17,7 @@ public:
 	Camera();
 	~Camera();
 
-	void update(const float &dt);
+	void update();
 
 	void zoom(float factor);
 	void rotate(float factor);

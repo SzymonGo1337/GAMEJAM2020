@@ -1,5 +1,7 @@
 #include "camera.hpp"
 
+#include "../time.hpp"
+
 Camera::Camera() {
 	//view.setCenter();
 }
@@ -18,14 +20,22 @@ void Camera::update(const float &dt) {
 			
 		} else {
 
-			view.move(-((rand()%shakeForceX)*dt), -((rand()%shakeForceY)*dt));
+	if(shake) {
+
+		if(rand()%2 == 1) {
+
+			view.move((rand()%shakeForceX)*GameTime::dt(), (rand()%shakeForceY)*GameTime::dt());
+			
+		} else {
+
+			view.move(-((rand()%shakeForceX)*GameTime::dt()), -((rand()%shakeForceY)*GameTime::dt()));
 
 		}
 	}
 
 	sf::Vector2f movement = entity->getShape().getPosition() - view.getCenter();
 	
-    view.move(movement.x * dt * smoothCameraSpeed, movement.y * dt * smoothCameraSpeed);
+    view.move(movement.x * GameTime::dt() * smoothCameraSpeed, movement.y * GameTime::dt() * smoothCameraSpeed);
 	
 }
 

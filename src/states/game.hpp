@@ -19,7 +19,7 @@ public:
 
 	void updateEvents(sf::Event &event);
 
-	void update(const float &dt);
+	void update();
 
 	void render();
 };

@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "../time.hpp"
+
 GameState::GameState(Data *data) : State(data) {
 
 	camera.follow(player);
@@ -27,16 +29,16 @@ void GameState::updateEvents(sf::Event &event) {
 
 }
 
-void GameState::update(const float &dt) {
+void GameState::update() {
 
-	player->update(dt);
+	player->update();
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::B)) camera.setShake(true, 500, 500);
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N)) camera.setShake(true, 1000, 1000);
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) camera.setShake(false, 0, 0);
 
-	camera.update(dt);
-	text->follow(player, dt, 15);
+	camera.update();
+	text->follow(player, GameTime::dt(), 15);
 
 }
 

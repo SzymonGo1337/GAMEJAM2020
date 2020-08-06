@@ -16,6 +16,6 @@ public:
 		
 	}
 	virtual void updateEvents(sf::Event &event)=0;
-	virtual void update(const float &dt)=0;
+	virtual void update()=0;
 	virtual void render()=0;
 };

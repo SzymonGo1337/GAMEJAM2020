@@ -1,5 +1,7 @@
 #include "player.hpp"
 
+#include "../time.hpp"
+
 Player::Player() {
 
 	shape.setSize(sf::Vector2f(30, 30));
@@ -23,12 +25,12 @@ Entity *Player::clone() const {
 		
 }
 
-void Player::update(const float &dt) {
+void Player::update() {
 	
 	//TODO: keys binding
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) shape.move(0, -150*dt);
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) shape.move(0, 150*dt);
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) shape.move(-150*dt, 0);
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) shape.move(150*dt, 0);	
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) shape.move(0, -150 * GameTime::dt());
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) shape.move(0,  150 * GameTime::dt());
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) shape.move(-150 * GameTime::dt(),  0);
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) shape.move( 150 * GameTime::dt(),  0);	
 
 }

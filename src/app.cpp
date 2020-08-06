@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "time.hpp"
 
 App::App() {
 
@@ -36,9 +37,7 @@ void App::run() {
 	//main loop
 	while(window->isOpen()) {
 
-		clock.restart();
-
-
+		GameTime::update();
 		updateEvents();
 		update();
 		render();

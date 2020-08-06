@@ -12,5 +12,5 @@ public:
 
 	Entity *clone() const override;
 
-	void update(const float &dt) override;
+	void update() override;
 };

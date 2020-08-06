@@ -22,10 +22,6 @@ private:
 
 	sf::Image icon;
 
-	sf::Clock clock;
-	double deltaTime;
-	int fps;
-
 public:
 	App();
 	~App();
