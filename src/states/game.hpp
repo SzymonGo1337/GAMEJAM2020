@@ -3,25 +3,23 @@
 #include "state.hpp"
 #include "../entity/player.hpp"
 #include "../entity/entity.hpp"
+#include "../effects/text.hpp"
 
 class GameState : public State {
 private:
 	Entity* player = new Player;
+
+	Text *text;
+
+	Camera camera;
+
 public:
-	GameState() {
+	GameState(Data *data);
+	~GameState();
 
-	}
+	void updateEvents(sf::Event &event);
 
-	~GameState() {
-		
-	}
+	void update();
 
-	void update() {
-		//printf("works\n");
-		player->update();
-	}
-
-	void render(sf::RenderWindow *window) {
-		player->render(window);
-	}
+	void render();
 };

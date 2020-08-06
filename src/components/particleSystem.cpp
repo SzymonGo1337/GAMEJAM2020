@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "../time.hpp"
+
 ParticleSystem::ParticleSystem(unsigned int count) :
 	particles(count),
 	vertices(sf::Quads, count*4),
@@ -23,8 +25,8 @@ float mag(const sf::Vector2f &v){
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-void ParticleSystem::update(float deltaTime) {
-	currentEmissionTime += deltaTime;
+void ParticleSystem::update() {
+	currentEmissionTime += GameTime::dt();
 
 	// ========== emission
 	if(unusedParticles > 0 && (emissionTime < 0 || currentEmissionTime < emissionTime)){
@@ -39,7 +41,7 @@ void ParticleSystem::update(float deltaTime) {
 			}
 			
 		}
-		particlesToEmit += emissionRate * deltaTime;
+		particlesToEmit += emissionRate * GameTime::dt();
 	}
 	// ========== update
 	for (std::size_t i = 0; i < particles.size(); ++i) {
@@ -49,7 +51,7 @@ void ParticleSystem::update(float deltaTime) {
 			continue;
 		}
 
-		p.lifetime -= deltaTime;
+		p.lifetime -= GameTime::dt();
 
 		if(p.lifetime <= 0){ // just die
 			setParticleColor(i, sf::Color::Transparent);
@@ -62,9 +64,9 @@ void ParticleSystem::update(float deltaTime) {
 		sf::Color color = particleColorOverLifetime.evaluate(gradientPos);;
 		float scale = particleSize * scaleOverLifetime(gradientPos);
 		
-		p.velocity += particleGravity * deltaTime;
-		p.position += p.velocity * deltaTime;
-		p.rotation += particleRotationSpeed * rotationSpeedScaleOverLifetime(gradientPos) * deltaTime;
+		p.velocity += particleGravity * GameTime::dt();
+		p.position += p.velocity * GameTime::dt();
+		p.rotation += particleRotationSpeed * rotationSpeedScaleOverLifetime(gradientPos) * GameTime::dt();
 		float a = p.rotation * deg2rad;
 
 		for(unsigned int iv = 0 ; iv < 4 ; iv++){
@@ -85,7 +87,7 @@ void ParticleSystem::update(float deltaTime) {
 		}
 	}
 
-	updateDebug(deltaTime);
+	updateDebug();
 }
 
 void ParticleSystem::setParticleColor(std::size_t index, const sf::Color &color){
@@ -94,7 +96,7 @@ void ParticleSystem::setParticleColor(std::size_t index, const sf::Color &color)
 	}
 }
 
-void ParticleSystem::updateDebug(float deltaTime) {
+void ParticleSystem::updateDebug() {
 	if(!debugDraw) return;
 	emitterShape->debugDraw(debugArr, emitterPosition);
 }

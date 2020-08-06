@@ -53,7 +53,7 @@ public:
 	/**
 	 * @returns number of keys
 	 */
-	int getKeysCount() const;
+	unsigned int getKeysCount() const;
 
 	/**
 	 * Returns gradient key
