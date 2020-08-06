@@ -2,18 +2,20 @@
 
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
+#include "../data.hpp"
+#include "../components/camera.hpp"
 
 class State {
-private:
-
+protected:
+	Data *data;
 public:
-	State() {
-
+	State(Data *data) {
+		this->data = data;
 	}
 	virtual ~State() {
 		
 	}
-
-	virtual void update()=0;
-	virtual void render(sf::RenderWindow* window)=0;
+	virtual void updateEvents(sf::Event &event)=0;
+	virtual void update(const float &dt)=0;
+	virtual void render()=0;
 };

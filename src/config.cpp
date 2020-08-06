@@ -1,6 +1,7 @@
 #include "config.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 Config::Config() {
 	
@@ -37,6 +38,14 @@ void Config::load(const std::string &path) {
 }
 
 int Config::getValue(const std::string &var) {
+	
+	if(variables.count(var)) {
 
-	return (variables.count(var)) ? variables.at(var) : -1;
+		return variables.at(var);
+
+	} else {
+
+		throw std::invalid_argument("[ERROR] cannot find " + var + " variable in config file");
+	}
+	
 }

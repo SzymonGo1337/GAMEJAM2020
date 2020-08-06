@@ -2,12 +2,23 @@
 
 #include <SFML/Graphics.hpp>
 
-class Entity {
+class Entity : public sf::Drawable {
 protected:
-
+	sf::RectangleShape shape;
 public:
 	Entity() {};
-	~Entity() {};
-	virtual void update() = 0;
-	virtual void render(sf::RenderWindow *window) = 0;
+	virtual ~Entity() {};
+
+	sf::RectangleShape &getShape() { return shape; }
+
+
+	virtual Entity* clone() const = 0;
+
+
+	virtual void update(const float &dt) = 0;
+
+
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override {
+		target.draw(shape, states);
+	}
 };

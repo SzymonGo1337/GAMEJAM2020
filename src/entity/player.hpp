@@ -1,14 +1,16 @@
 #pragma once
 
 #include "entity.hpp"
+#include "../components/animation.hpp"
 
 class Player : public Entity {
 private:
-	sf::RectangleShape shape;
+
 public:
 	Player();
 	~Player();
 
-	void update();
-	void render(sf::RenderWindow *window);
+	Entity *clone() const override;
+
+	void update(const float &dt) override;
 };
