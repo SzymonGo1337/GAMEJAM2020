@@ -4,7 +4,7 @@
 
 Player::Player() {
 
-	shape.setSize(sf::Vector2f(30, 30));
+	shape.setSize(sf::Vector2f(50, 50));
 
 	shape.setFillColor(sf::Color::Red);
 	

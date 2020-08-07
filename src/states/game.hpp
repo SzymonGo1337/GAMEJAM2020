@@ -5,6 +5,7 @@
 #include "../entity/entity.hpp"
 #include "../effects/text.hpp"
 #include "../managers/mapManager.hpp"
+#include "../components/particleSystem.hpp"
 
 class GameState : public State {
 private:
@@ -15,6 +16,10 @@ private:
 	Camera camera;
 
 	Map *map;
+
+	ParticleSystem backgroundParticleA;
+	ParticleSystem backgroundParticleB;
+	sf::Texture *particleTexture;
 
 public:
 	GameState(Data *data);
