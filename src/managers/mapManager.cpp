@@ -112,9 +112,9 @@ Map::~Map() {
 /*
 TODO: Move him to other place (somewhere where he can live until we make last bug fixes before deadline)
 
-                  /\ .---._
-               /\/.-. /\ /\/\  br
-             //\\oo //\\/\\\\
+                  /\ .---._      +------------------------------+
+               /\/.-. /\ /\/\   <  Map rendering errors go brrr |
+             //\\oo //\\/\\\\    +------------------------------+
             //  /"/`---\\ \\"`-._
         _.-'"           "`-.`-.
 */

@@ -10,7 +10,7 @@ GameState::GameState(Data *data) : State(data) {
 	text->setOffset(25, -45);
 
 	MapManager mapManager;
-	map = mapManager.createFromFile("testMap.png");
+	map = mapManager.createFromFile("res/testMap.png");
 	map->setScale(10, 10);
 }
 
