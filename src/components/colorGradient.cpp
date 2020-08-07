@@ -146,7 +146,7 @@ inline sf::Uint8 LerpColorComponent(sf::Uint8 start, sf::Uint8 end, float t) {
 sf::Color ColorGradient::evaluate(float position) const {
 	unsigned int index = getLeftKeyIndexFor(position);
 
-	if(index + 1 >= getKeysCount()){ //its last point
+	if(index + 1 >= (unsigned)getKeysCount()){ //its last point
 		return values[index].color;
 	}
 
