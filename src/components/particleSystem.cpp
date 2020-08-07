@@ -7,6 +7,7 @@ ParticleSystem::ParticleSystem(unsigned int count) :
 	vertices(sf::Quads, count*4),
 	debugArr(sf::Lines, 6),
 	unusedParticles(count),
+	textureSize(1,1),
 	emitterPosition(0.f, 0.f),
 	emitterShape(new ParticleSystemShape(46, 0)),  //memory leak
 	particleLifeTime(3.f, 4.f),
@@ -139,10 +140,10 @@ void ParticleSystem::resetEmitter() {
 	for(unsigned int i = 0 ; i < particles.size() ; i++){
 		particles[i].lifetime = 0;
 		// texCoords
-		vertices[i*4 +0].texCoords = sf::Vector2f( 1,  1);
-		vertices[i*4 +1].texCoords = sf::Vector2f( 1, -1);
-		vertices[i*4 +2].texCoords = sf::Vector2f(-1, -1);
-		vertices[i*4 +3].texCoords = sf::Vector2f(-1,  1);
+		vertices[i*4 +0].texCoords = sf::Vector2f( 0           , 0);
+		vertices[i*4 +1].texCoords = sf::Vector2f( 0           , textureSize.y);
+		vertices[i*4 +2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
+		vertices[i*4 +3].texCoords = sf::Vector2f(textureSize.x, 0);
 		// color
 		setParticleColor(i, sf::Color::Transparent);
 	}
@@ -160,10 +161,20 @@ int ParticleSystem::getUsedParticlesCount() const {
 	return particles.size() - unusedParticles;
 }
 
-int ParticleSystem::getParticlesCount() const {
+unsigned int ParticleSystem::getParticlesCount() const {
 	return particles.size();
 }
 
+void ParticleSystem::updateTextureSize(sf::Vector2f texSize){
+	this->textureSize = texSize;
+
+	for(unsigned int i = 0 ; i < particles.size() ; i++){
+		vertices[i*4 +0].texCoords = sf::Vector2f(0        , 0);
+		vertices[i*4 +1].texCoords = sf::Vector2f(0        , texSize.y);
+		vertices[i*4 +2].texCoords = sf::Vector2f(texSize.x, texSize.y);
+		vertices[i*4 +3].texCoords = sf::Vector2f(texSize.x, 0);
+	}
+}
 
 sf::Vector2f velocityRotationAngle(float rotation, float angle, const MinMax &pSpeed){
 	//random angle as radians
