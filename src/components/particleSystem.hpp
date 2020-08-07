@@ -82,6 +82,8 @@ private:
 
 	float currentEmissionTime = 0;
 
+	sf::Vector2f textureSize;
+
 public: 
 	bool debugDraw = false;
 
@@ -134,7 +136,9 @@ public:
 	 */
 	int getUsedParticlesCount() const;
 
-	int getParticlesCount() const;
+	unsigned int getParticlesCount() const;
+
+	void updateTextureSize(sf::Vector2f texSize);
 
 private:
 
