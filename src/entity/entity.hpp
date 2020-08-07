@@ -1,16 +1,18 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "../states/game.hpp"
 
 class Entity : public sf::Drawable {
 protected:
 	sf::Uint8 additionalData;
 	sf::RectangleShape shape;
+	GameState *gameState;
 
 public:
-
-
-	Entity() {};
+	Entity(GameState **game) {
+		gameState = *game;
+	};
 	virtual ~Entity() {};
 
 	sf::RectangleShape &getShape() { return shape; }

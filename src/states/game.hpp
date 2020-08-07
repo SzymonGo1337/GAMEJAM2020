@@ -8,8 +8,11 @@
 #include "../components/particleSystem.hpp"
 
 class GameState : public State {
+friend class Entity;
+friend class Player;
+
 private:
-	Entity* player = new Player;
+	Entity* player = new Player(new GameState*(this));
 
 	Text *text;
 
