@@ -24,8 +24,12 @@ float mag(const sf::Vector2f &v){
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-void ParticleSystem::update(float deltaTime) {
-	currentEmissionTime += deltaTime;
+float sign(float v){
+	return (0 < v) - (v < 0);
+}
+
+void ParticleSystem::update() {
+	currentEmissionTime += GameTime::dt();
 
 	// ========== emission
 	if(unusedParticles > 0 && (emissionTime < 0 || currentEmissionTime < emissionTime)){
@@ -69,8 +73,9 @@ void ParticleSystem::update(float deltaTime) {
 		float a = p.rotation * deg2rad;
 
 		for(unsigned int iv = 0 ; iv < 4 ; iv++){
-			float x = vertices[i*4 +iv].texCoords.x;
-			float y = vertices[i*4 +iv].texCoords.y;
+			
+			float x = sign(vertices[i*4 +iv].texCoords.x);
+			float y = sign(vertices[i*4 +iv].texCoords.y);
 			/*
 			Rotation matrix:
 				cos     -sin
@@ -105,7 +110,7 @@ void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) con
 	states.transform *= getTransform();
 
 	// our particles don't use a texture
-	states.texture = NULL;
+	states.texture = texture;
 
 	// draw the vertex array
 	target.draw(vertices, states);
@@ -122,9 +127,11 @@ void ParticleSystem::emitParticle(std::size_t index) {
 
 	particles[index].position = emitterShape->getParticlePosition() + emitterPosition;
 
-	for(int i = 0 ; i < 4 ; i++){
-		vertices[index*4 +i].position = emitterPosition + (vertices[index*4 +i].texCoords * particleSize);
-	}
+	vertices[index*4 +0].position = emitterPosition + (sf::Vector2f(-1, -1) * particleSize);
+	vertices[index*4 +0].position = emitterPosition + (sf::Vector2f(-1,  1) * particleSize);
+	vertices[index*4 +0].position = emitterPosition + (sf::Vector2f(1 ,  1) * particleSize);
+	vertices[index*4 +0].position = emitterPosition + (sf::Vector2f(1 , -1) * particleSize);
+	
 
 	--unusedParticles;
 }
