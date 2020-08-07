@@ -52,7 +52,7 @@ private:
 	unsigned int entitiesCount;	
 
 	sf::Uint8 *mapGrid;
-	Entity *entities;
+	Entity **entities;
 
 	sf::RenderTexture texture;
 
@@ -72,7 +72,7 @@ public:
 	int blockAt(unsigned int x, unsigned int y) const;
 	bool collisionAt(unsigned int x, unsigned int y) const;
 
-	const Entity* getEntities() const;
+	const Entity** getEntities() const;
 	unsigned int getEntitiesCount() const;
 
 

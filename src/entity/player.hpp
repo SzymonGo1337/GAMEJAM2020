@@ -10,7 +10,7 @@ public:
 	Player();
 	~Player();
 
-	Entity *clone() const override;
+	Entity *clone(sf::Uint8 additionalData = 0) const override;
 
 	void update() override;
 };

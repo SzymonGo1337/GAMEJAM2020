@@ -23,24 +23,42 @@ Map* MapManager::createFromFile(const char* fileName) const {
 
 	std::vector<Entity*> entitiesOnMap;
 	Map *map = new Map(size.x, size.y);
+	map->mapGrid = new sf::Uint8[size.x * size.y];
 
 	sf::Vector2u spawnPoint;
 	for(int y = 0 ; y < size.y ; y++){
 		for(int x = 0 ; x < size.x ; x++){
 			//RGBA
+			//R - collision; G - Entity; B - Data
 			const sf::Uint8 *pixel = imagePixels + ((y*size.x + x) * 4);
-			map->mapGrid[y*size.x + x] = pixel[0];
-			if(pixel[1] == 255){
+
+			map->mapGrid[y*size.x + x] = pixel[0]; //colision
+
+			if(pixel[1] == 255) { // is player
 				spawnPoint.x = x;
 				spawnPoint.y = y;
-			} else if(pixel[1] != 0) {
-				if( entities.count(pixel[1]) ){
-					//Add entity clone to entitiesOnMap
-					//entitiesOnMap.push_back( entities.at(pixel[1])-> )
+			}
+			else if(pixel[1] != 0) { // is entity
+				if( entities.count(pixel[1]) ){ // entity is defined
+					// copy entity
+					// pixel[2] - data
+					Entity *copy = entities.at(pixel[1])->clone(pixel[2]);
+
+					copy->getShape().setPosition(x, y);
+
+
+					
+					entitiesOnMap.push_back( copy );
 				}
 			}
 
 		}
+	}
+
+	map->entitiesCount = entitiesOnMap.size();
+	map->entities = new Entity*[entitiesOnMap.size()];
+	for(size_t i = 0 ; i < entitiesOnMap.size() ; i++){
+		map->entities[i] = entitiesOnMap[i];
 	}
 
 	map->init();
@@ -66,10 +84,10 @@ int Map::blockAt(unsigned int x, unsigned int y) const {
 }
 
 bool Map::collisionAt(unsigned int x, unsigned int y)  const {
-	return blockAt(x, y)>>8;
+	return blockAt(x, y)>>7;
 }
 
-const Entity* Map::getEntities() const {
+const Entity** Map::getEntities() const {
 	return entities;
 }
 
