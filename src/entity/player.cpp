@@ -36,18 +36,35 @@ Entity *Player::clone(sf::Uint8 additionalData) const {
 }
 
 void Player::update() {
-	collisionDetector.velocity = sf::Vector2f(0, 0);
-	collisionDetector.velocity.y += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) ? (-150 * GameTime::dt()) : 0;
-	collisionDetector.velocity.y += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) ? (150 * GameTime::dt()) : 0;
-	collisionDetector.velocity.x += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) ? (-150 * GameTime::dt()) : 0;
-	collisionDetector.velocity.x += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) ? (150 * GameTime::dt()) : 0;
+	const float speed = 10.f;
+	const float drag = 2.f;
+	//collisionDetector.velocity = sf::Vector2f(0, 0);
+	sf::Vector2f inputAxis(0,0);
+	inputAxis.y -= sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W);
+	inputAxis.y += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S);
+	inputAxis.x -= sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A);
+	inputAxis.x += sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D);
+	inputAxis = inputAxis * speed * GameTime::dt();
+	setKey("input", tostr(inputAxis));
+
+	sf::Vector2f velocity = collisionDetector.velocity;
+
+	// sf::Vector2f velD = -velocity * drag * GameTime::dt();
+	// float velEff = 1.f - GameTime::dt() * drag;
+
+	// velocity += (velD + inputAxis) * velEff;
+
+	velocity += inputAxis;
+	velocity -= velocity * drag * GameTime::dt();
+
+	collisionDetector.velocity = velocity;
 
 	collisionDetector.position = shape.getPosition();
 	collisionDetector.position += collisionDetector.velocity;
 	collisionDetector.checkCollisionsAndFixPosition();
 
-	std::cout << collisionDetector.position << " ";
-	std::cout << shape.getPosition() << std::endl;
+	//std::cout << collisionDetector.position << " ";
+	//std::cout << shape.getPosition() << std::endl;
 
 	shape.move(collisionDetector.position - shape.getPosition());
 

@@ -104,15 +104,7 @@ Map::~Map() {
 }
 
 #include <iostream>
-/*
-TODO: Move him to other place (somewhere where he can live until we make last bug fixes before deadline)
 
-                  /\ .---._      +------------------------------+
-               /\/.-. /\ /\/\   <  Map rendering errors go brrr |
-             //\\oo //\\/\\\\    +------------------------------+
-            //  /"/`---\\ \\"`-._
-        _.-'"           "`-.`-.
-*/
 void Map::init() { 
 
 	const unsigned int cellPixelSize = 8;
@@ -122,9 +114,11 @@ void Map::init() {
 
 	const sf::Uint32 background = 0x00000000; 
 	const sf::Uint32 decoration = 0xFFFFFFFF;
-	const sf::Uint32 block = 0xFF000000;
+	const sf::Uint32 block = 0xFF505050;
 
 	sf::Uint32 *pixels = new sf::Uint32[ width * cellPixelSize * height * cellPixelSize];
+
+	std::cout << "map size: " << width << ";" << height << std::endl;
 
 	//Fills cellPixelSize * cellPixelSize at specific (x,y)*cellPixelSize
 
@@ -213,6 +207,10 @@ int Map::pos(unsigned int x, unsigned int y) const {
 
 int Map::blockAt(unsigned int x, unsigned int y) const {
 	return mapGrid[pos(x, y)];
+}
+
+bool Map::collisionAt(sf::Vector2i pos) const {
+	return collisionAt(pos.x, pos.y);
 }
 
 bool Map::collisionAt(unsigned int x, unsigned int y)  const {

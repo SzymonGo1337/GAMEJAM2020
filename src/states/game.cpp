@@ -4,6 +4,9 @@
 
 GameState::GameState(Data *data) : State(data), backgroundParticleA(100), backgroundParticleB(100) {
 
+	MapManager mapManager;
+	map = mapManager.createFromFile("res/testMap.png");
+
 	player = new Player(this);
 
 	camera.follow(player);
@@ -18,8 +21,6 @@ GameState::GameState(Data *data) : State(data), backgroundParticleA(100), backgr
 	text = new Text("res/fonts/Ubuntu-Bold.ttf", "use W A S D to move", player->getShape().getPosition(), 18);
 	text->setOffset(25, -45);
 
-	MapManager mapManager;
-	map = mapManager.createFromFile("res/testMap.png");
 	std::cout << map->getSpawnPoint().x << " " << map->getSpawnPoint().y << std::endl;
 	player->getShape().setPosition(((sf::Vector2f) map->getSpawnPoint()) * playerSize.x * 2.f + playerSize );
 
@@ -94,5 +95,17 @@ void GameState::render() {
 
 	data->window->draw(*player);
 	data->window->draw(*text);
+
+
+	std::map<std::string, sf::Text> debugTexts = getLogMap();
+	std::map<std::string, sf::Text>::iterator it;
+	int i = 0;
+	for(it = debugTexts.begin(); it != debugTexts.end() ; it++){
+		sf::Vector2f pos = camera.getView()->getCenter() - camera.getView()->getSize()*0.5f;
+		pos.x += 10;
+		pos.y += 10 * (i++) * 2;
+		it->second.setPosition(pos);
+		data->window->draw(it->second);
+	}
 
 }

@@ -74,6 +74,7 @@ public:
 	 */
 	int blockAt(unsigned int x, unsigned int y) const;
 	bool collisionAt(unsigned int x, unsigned int y) const;
+	bool collisionAt(sf::Vector2i pos) const;
 
 	Entity** getEntities() const;
 	unsigned int getEntitiesCount() const;

@@ -33,11 +33,12 @@ App::~App() {
 }
 
 void App::run() {
-
+	window->setFramerateLimit(60);
 	//main loop
 	GameTime::init();
 	while(window->isOpen()) {
 		GameTime::update();
+		setKey("FPS", tostr(GameTime::FPS()));
 		updateEvents();
 		update();
 		render();
