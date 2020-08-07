@@ -16,10 +16,10 @@ Player::~Player() {
 
 }
 
-Entity *Player::clone(sf::Uint8 additionalData = 0) const {
+Entity *Player::clone(sf::Uint8 additionalData) const {
 
     Player *p = new Player();
-    p->shape = this->shape;
+    p->shape = sf::RectangleShape(this->shape);
 
 	if(additionalData != 0)
 		p->additionalData = additionalData;

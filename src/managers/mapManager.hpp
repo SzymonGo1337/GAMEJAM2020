@@ -72,7 +72,7 @@ public:
 	int blockAt(unsigned int x, unsigned int y) const;
 	bool collisionAt(unsigned int x, unsigned int y) const;
 
-	const Entity** getEntities() const;
+	Entity** getEntities() const;
 	unsigned int getEntitiesCount() const;
 
 
@@ -82,4 +82,6 @@ public:
 	sf::Vector2u getSpawnPoint() const;
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	virtual ~Map();
 };

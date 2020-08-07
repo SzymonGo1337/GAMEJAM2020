@@ -8,7 +8,7 @@ private:
 
 public:
 	Player();
-	~Player();
+	virtual ~Player();
 
 	Entity *clone(sf::Uint8 additionalData = 0) const override;
 

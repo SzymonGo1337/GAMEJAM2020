@@ -6,11 +6,11 @@ MapManager::MapManager() {
 }
 
 int MapManager::addEntity(std::initializer_list<std::pair<sf::Uint8, Entity*>> entities) {
-
+	return 0;
 }
 
 bool MapManager::addEntity(sf::Uint8 id, Entity *entity) {
-
+	return false;
 }
 
 Map* MapManager::createFromFile(const char* fileName) const {
@@ -26,8 +26,8 @@ Map* MapManager::createFromFile(const char* fileName) const {
 	map->mapGrid = new sf::Uint8[size.x * size.y];
 
 	sf::Vector2u spawnPoint;
-	for(int y = 0 ; y < size.y ; y++){
-		for(int x = 0 ; x < size.x ; x++){
+	for(size_t y = 0 ; y < size.y ; y++){
+		for(size_t x = 0 ; x < size.x ; x++){
 			//RGBA
 			//R - collision; G - Entity; B - Data
 			const sf::Uint8 *pixel = imagePixels + ((y*size.x + x) * 4);
@@ -71,6 +71,10 @@ Map* MapManager::createFromFile(const char* fileName) const {
 
 Map::Map(unsigned int pWidth, unsigned int pHeight) : width(pWidth), height(pHeight) {}
 
+Map::~Map() {
+	//TODO pointers
+}
+
 void Map::init() {
 
 }
@@ -87,7 +91,7 @@ bool Map::collisionAt(unsigned int x, unsigned int y)  const {
 	return blockAt(x, y)>>7;
 }
 
-const Entity** Map::getEntities() const {
+Entity** Map::getEntities() const {
 	return entities;
 }
 
@@ -105,4 +109,7 @@ int Map::getHeight() const {
 
 sf::Vector2u Map::getSpawnPoint() const{
 	return spawnPoint;
+}
+void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+	//TODO
 }
