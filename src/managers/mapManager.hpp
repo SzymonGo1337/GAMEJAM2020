@@ -79,7 +79,7 @@ public:
 	unsigned int getEntitiesCount() const;
 
 
-	int getWdith() const;
+	int getWidth() const;
 	int getHeight() const;
 
 	sf::Vector2u getSpawnPoint() const;

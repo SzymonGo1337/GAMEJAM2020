@@ -72,7 +72,7 @@ Map* MapManager::createFromFile(const char* fileName) const {
 	for(size_t i = 0 ; i < entitiesOnMap.size() ; i++){
 		map->entities[i] = entitiesOnMap[i];
 	}
-
+	map->spawnPoint = spawnPoint;
 	map->init();
 	return map;
 }
@@ -91,11 +91,6 @@ Map::Map(unsigned int pWidth, unsigned int pHeight) :
 	vertex[2].position = sf::Vector2f(pWidth, pHeight );
 	vertex[3].position = sf::Vector2f(0     , pHeight );
 
-	vertex[0].texCoords = sf::Vector2f(0, 0);
-	vertex[1].texCoords = sf::Vector2f(1, 0);
-	vertex[2].texCoords = sf::Vector2f(1, 1);
-	vertex[3].texCoords = sf::Vector2f(0, 1);
-	
 	vertex[0].color = vertex[1].color = vertex[2].color = vertex[3].color = sf::Color::White;
 }
 
@@ -124,17 +119,17 @@ void Map::init() {
 	const unsigned int cellBorderWidth = 1;
 	const unsigned int mapWidth = this->width;
 	const unsigned int mapHeight = this->height;
-	const sf::Uint32 transparent = 0xA500FF00; //sf::Color::Transparent.toInteger();
-	const sf::Uint32 white = 0xFFFFA0A0;
-	const sf::Uint32 black = 0xFF0000FF; //sf::Color::Green.toInteger(); //temporary green
+	const sf::Uint32 background = 0x00000000; 
+	const sf::Uint32 decoration = 0xFFFFFFFF;
+	const sf::Uint32 block = 0xFF000000;
 
 	sf::Uint32 *pixels = new sf::Uint32[ width * cellPixelSize * height * cellPixelSize];
 
 	//Fills cellPixelSize * cellPixelSize at specific (x,y)*cellPixelSize
-	auto fill = [](size_t x, size_t y, size_t w, size_t h, sf::Uint32 color, unsigned int mapWidth, sf::Uint32* pixels){
+	auto fill = [&](size_t x, size_t y, size_t w, size_t h, sf::Uint32 color){
 		for(size_t i = 0 ; i < h ; i++){
 			for(size_t j = 0 ; j < w ; j++){
-				pixels[(y + i)*mapWidth + x + j] = color;
+				pixels[(y + i)*mapWidth*cellPixelSize + x + j] = color;
 			}	
 		}
 	};
@@ -143,44 +138,71 @@ void Map::init() {
 		for(size_t x = 0 ; x < width ; x++){
 			std::cout << collisionAt(x,y) << " ";
 			if(!collisionAt(x,y)){
-				fill(x*cellPixelSize, y*cellPixelSize, cellPixelSize, cellPixelSize, transparent, mapWidth, pixels  );
+				fill(x*cellPixelSize, y*cellPixelSize, cellPixelSize, cellPixelSize, background );
 			}
 			else { //draw white lines;
-				fill(x*cellPixelSize, y*cellPixelSize, cellPixelSize, cellPixelSize, black, mapWidth, pixels  );
-				// if(x > 0 && !collisionAt(x-1, y)){
-				// 	fill(x * cellPixelSize, y * cellPixelSize,
-				// 		cellBorderWidth, cellPixelSize,
-				// 		white, mapWidth, pixels );
-				// }
-				// if(x+1 < width && !collisionAt(x+1, y)){
-				// 	fill(x * cellPixelSize + cellPixelSize - cellBorderWidth, y * cellPixelSize,
-				// 		cellBorderWidth, cellPixelSize,
-				// 		white, mapWidth, pixels );
-				// }
-				// if(y > 0 && !collisionAt(x, y-1)){
-				// 	fill(x * cellPixelSize, y * cellPixelSize,
-				// 		cellPixelSize, cellBorderWidth,
-				// 		white, mapWidth, pixels );
-				// }
-				// if(y+1 < height && !collisionAt(x, y+1)){
-				// 	fill(x * cellPixelSize, y * cellPixelSize + cellPixelSize - cellBorderWidth,
-				// 		cellPixelSize, cellBorderWidth,
-				// 		white, mapWidth, pixels );
-				// }
+				fill(x*cellPixelSize, y*cellPixelSize, cellPixelSize, cellPixelSize, block);
+				if(x > 0 && !collisionAt(x-1, y)){
+					fill(x * cellPixelSize, y * cellPixelSize,
+						cellBorderWidth, cellPixelSize,
+						decoration);
+				}
+				if(x+1 < width && !collisionAt(x+1, y)){
+					fill(x * cellPixelSize + cellPixelSize - cellBorderWidth, y * cellPixelSize,
+						cellBorderWidth, cellPixelSize,
+						decoration);
+				}
+				if(y > 0 && !collisionAt(x, y-1)){
+					fill(x * cellPixelSize, y * cellPixelSize,
+						cellPixelSize, cellBorderWidth,
+						decoration);
+				}
+				if(y+1 < height && !collisionAt(x, y+1)){
+					fill(x * cellPixelSize, y * cellPixelSize + cellPixelSize - cellBorderWidth,
+						cellPixelSize, cellBorderWidth,
+						decoration);
+				}
+				if(x>0 && y>0 && !collisionAt(x-1, y-1)){
+					fill(x * cellPixelSize, y * cellPixelSize,
+						cellBorderWidth, cellBorderWidth,
+						decoration);
+				}
+				if(x+1<width && y+1<height && !collisionAt(x+1, y+1)){
+					fill((x+1) * cellPixelSize - cellBorderWidth, (y+1) * cellPixelSize - cellBorderWidth,
+						cellBorderWidth, cellBorderWidth,
+						decoration);
+				}
+				if(x>0 && y+1<height && !collisionAt(x-1, y+1)){
+					fill(x * cellPixelSize, (y+1) * cellPixelSize - cellBorderWidth,
+						cellBorderWidth, cellBorderWidth,
+						decoration);
+				}
+				if(x+1<width && y>0 && !collisionAt(x+1, y-1)){
+					fill((x+1) * cellPixelSize - cellBorderWidth, y * cellPixelSize,
+						cellBorderWidth, cellBorderWidth,
+						decoration);
+				}
 			}
 		}
 		std::cout << std::endl;
 	}
+
+	//fill(3*cellPixelSize, 3*cellPixelSize, cellPixelSize, cellPixelSize, 0xFFFF0000, mapWidth * cellPixelSize, pixels);
 
 	sf::Image img;
 	img.create(width * cellPixelSize, height * cellPixelSize, (sf::Uint8*)pixels);
 
 	texture = new sf::Texture();
 	if(texture->loadFromImage(img)){
-		
 		//texture->update((sf::Uint8*)pixels);
 		std::cout << "map ready!" << std::endl;
 	}
+	
+
+	vertex[0].texCoords = sf::Vector2f(0                    , 0);
+	vertex[1].texCoords = sf::Vector2f(width * cellPixelSize, 0);
+	vertex[2].texCoords = sf::Vector2f(width * cellPixelSize, height * cellPixelSize);
+	vertex[3].texCoords = sf::Vector2f(0                    , height * cellPixelSize);
 	
 	
 	delete[] pixels;
@@ -206,7 +228,7 @@ unsigned int Map::getEntitiesCount() const {
 	return entitiesCount;
 }
 
-int Map::getWdith() const {
+int Map::getWidth() const {
 	return width;
 }
 
@@ -219,7 +241,7 @@ sf::Vector2u Map::getSpawnPoint() const{
 }
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	states.transform *= getTransform();
-
+	
 	states.texture = texture;
 
 	target.draw(vertex, states);
