@@ -44,6 +44,7 @@ GameState::GameState(Data *data) : State(data), backgroundParticleA(100), backgr
 
 	backgroundParticleB = backgroundParticleA;
 	backgroundParticleB.texture = particleTexture;
+	backgroundParticleB.updateTextureSize((sf::Vector2f) particleTexture->getSize());
 	
 }
 
