@@ -51,10 +51,13 @@ private:
 
 	unsigned int entitiesCount;	
 
+	//Set from loader
 	sf::Uint8 *mapGrid;
+	//Set from loader
 	Entity **entities;
 
-	sf::RenderTexture texture;
+	sf::VertexArray vertex;
+	sf::Texture *texture;
 
 	sf::Vector2u spawnPoint;
 

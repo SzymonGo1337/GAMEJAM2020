@@ -4,6 +4,7 @@
 #include "../entity/player.hpp"
 #include "../entity/entity.hpp"
 #include "../effects/text.hpp"
+#include "../managers/mapManager.hpp"
 
 class GameState : public State {
 private:
@@ -12,6 +13,8 @@ private:
 	Text *text;
 
 	Camera camera;
+
+	Map *map;
 
 public:
 	GameState(Data *data);

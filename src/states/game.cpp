@@ -9,6 +9,9 @@ GameState::GameState(Data *data) : State(data) {
 	text = new Text("res/fonts/Ubuntu-Bold.ttf", "use W A S D to move", player->getShape().getPosition(), 18);
 	text->setOffset(25, -45);
 
+	MapManager mapManager;
+	map = mapManager.createFromFile("testMap.png");
+	map->setScale(10, 10);
 }
 
 GameState::~GameState() {
@@ -45,6 +48,8 @@ void GameState::update() {
 void GameState::render() {
 
 	data->window->setView(*camera.getView());
+
+	data->window->draw(*map);
 
 	data->window->draw(*player);
 	data->window->draw(*text);
