@@ -13,8 +13,14 @@ function build () {
 
 	mkdir -p build && cd $_
 	cmake -DCMAKE_BUILD_TYPE="$BUILD_MODE" ..
-	make -j$(nproc)
+	exitCode=$?
+	if [ "$exitCode" == "0" ]
+	then
+		make -j$(nproc)
+		exitCode=$?
+	fi
 	cd ..
+	exit $exitCode
 }
 
 function run {
