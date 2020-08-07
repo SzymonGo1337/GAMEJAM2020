@@ -4,6 +4,8 @@
 
 GameState::GameState(Data *data) : State(data), backgroundParticleA(100), backgroundParticleB(100) {
 
+	player = new Player(this);
+
 	camera.follow(player);
 
 	sf::Vector2f playerSize = player->getShape().getSize();

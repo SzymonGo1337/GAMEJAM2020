@@ -12,7 +12,7 @@ friend class Entity;
 friend class Player;
 
 private:
-	Entity* player = new Player(new GameState*(this));
+	Entity* player;
 
 	Text *text;
 

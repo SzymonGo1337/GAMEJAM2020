@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "../states/game.hpp"
+class GameState;
 
 class Entity : public sf::Drawable {
 protected:
@@ -10,8 +10,8 @@ protected:
 	GameState *gameState;
 
 public:
-	Entity(GameState **game) {
-		gameState = *game;
+	Entity(GameState *state) {
+		gameState = state;
 	};
 	virtual ~Entity() {};
 
